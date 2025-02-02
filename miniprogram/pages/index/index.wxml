@@ -1,0 +1,15 @@
+<view class="container">
+  <text class="title">请选择您的路线</text>
+  <view class="route-list">
+    <button bindtap="selectRoute" data-route="schoolToJZ"><text class="nowrap">学校 → 九州</text></button>
+    <button bindtap="selectRoute" data-route="JZToSchool"><text class="nowrap">九州 → 学校</text></button>
+    <button bindtap="selectRoute" data-route="schoolToTrain"><text class="nowrap">学校 → 高铁站</text></button>
+    <button bindtap="selectRoute" data-route="trainToSchool"><text class="nowrap">高铁站 → 学校</text></button>
+    <button bindtap="toggleOtherRoute"><text class="nowrap">其他路线</text></button>
+  </view>
+
+  <view wx:if="{{showOtherRoute}}">
+    <input type="text" placeholder="请输入自定义路线" bindinput="onInputChange" />
+    <button bindtap="confirmOtherRoute"><text class="nowrap">确认</text></button>
+  </view>
+</view>

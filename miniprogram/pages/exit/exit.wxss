@@ -1,0 +1,68 @@
+.info-box {
+    background-color: #f8f8f8;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .info {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  .info-value {
+    display: block;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  /* 重要提醒信息 */
+  .notice-box {
+    background-color: #fff3cd; /* 淡黄色警示背景 */
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid #ffcc00;
+    margin-bottom: 20px;
+  }
+  
+  .notice-text {
+    display: block;
+    font-size: 16px;
+    color: #856404;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* 按钮区域 */
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  /* 确认退出按钮（红色） */
+  .exit-confirm-button {
+    background-color: #ff4d4f;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 80%;
+  }
+  
+  /* 取消按钮（灰色） */
+  .exit-cancel-button {
+    background-color: #d9d9d9;
+    color: black;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+    width: 80%;
+  }

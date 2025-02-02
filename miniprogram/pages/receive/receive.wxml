@@ -1,0 +1,23 @@
+<view class="container">
+  <text class="title">拼车详情</text>
+
+  <view wx:if="{{carpool}}">
+    <view class="info-box">
+      <text class="info">📅 日期：{{carpool.date}}</text>
+      <text class="info">⏰ 最佳时间：{{carpool.bestTime}}</text>
+      <text class="info">⏳ 可接受时间：{{carpool.timeRange}}</text>
+      <text class="info">👥 已有：{{carpool.peopleCount}} 人</text>
+    </view>
+
+    <!-- 用户输入自己的微信号 -->
+    <text class="label">您的微信号</text>
+    <input class="input-box" type="text" placeholder="请输入您的微信号" bindinput="onWechatIdInput"/>
+
+    <!-- 确认并支付 -->
+    <button class="pay-button" bindtap="confirmAndPay">确认并支付</button>
+  </view>
+
+  <view wx:else>
+    <text class="loading">加载中...</text>
+  </view>
+</view>

@@ -1,0 +1,28 @@
+<view class="container">
+  <text class="title">⚠️ 确认退出拼车</text>
+
+  <view class="info-box">
+    <text class="info">📅 日期：</text>
+    <text class="info-value">{{carpool.date}}</text>
+
+    <text class="info">⏰ 最佳时间：</text>
+    <text class="info-value">{{carpool.bestTime}}</text>
+
+    <text class="info">⏳ 可接受时间：</text>
+    <text class="info-value">{{carpool.timeRange}}</text>
+
+    <text class="info">👥 退出后，该拼车还剩：</text>
+    <text class="info-value">{{remainingPeople}} 人</text>
+  </view>
+
+  <!-- 重要提醒 -->
+  <view class="notice-box">
+    <text class="notice-text">⚠️ 退出后将无法再加入此拼车</text>
+    <text class="notice-text">📢 请确保已联系车头或其他成员</text>
+  </view>
+
+  <view class="button-container">
+    <button class="exit-confirm-button" bindtap="confirmExit">确认退出</button>
+    <button class="exit-cancel-button" bindtap="cancelExit">取消</button>
+  </view>
+</view>

@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .nowrap {
+    white-space: nowrap; /* 让文本始终在同一行 */
+    display: inline-block; /* 确保不会自动折行 */
+  }
+  
+  /* ✅ 按钮美观优化 */
+  .route-list button {
+    width: 90%;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px;
+    margin: 5px;
+    border-radius: 8px;
+  }

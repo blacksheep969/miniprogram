@@ -1,0 +1,60 @@
+Page({
+    data: {
+        carpool: null,
+        openid: "",
+        isJoined: false // 🚀 判断用户是否在该拼车内
+    },
+
+    onLoad() {
+        const openid = wx.getStorageSync("openid");
+        let carpool = wx.getStorageSync("selectedCarpool");  
+        console.log("【接收的拼车信息】:", carpool);
+
+        if (!carpool) {
+            wx.showToast({ title: "数据错误，请返回", icon: "none" });
+            wx.navigateBack();
+            return;
+        }
+
+        // **确保车头在第一位**
+        if (carpool.participants && carpool.participants.length > 0) {
+            carpool.participants.sort((a, b) => (a.openid === carpool._openid ? -1 : 1));
+        }
+
+        // **为车队成员加上角色标签**
+        carpool.participants = carpool.participants.map((member, index) => {
+            return {
+                ...member,
+                role: index === 0 ? "🚀 车头" : `👤 成员 ${index}`
+            };
+        });
+
+        // 🚀 **判断当前用户是否在该拼车中**
+        const isJoined = carpool.participants.some(member => member.openid === openid);
+
+        this.setData({ carpool, openid, isJoined });
+    },
+
+    copyWechat(e) {
+        const wechatId = e.currentTarget.dataset.wechat;
+        console.log("【复制微信号】:", wechatId);
+
+        wx.setClipboardData({
+            data: wechatId,
+            success() {
+                wx.showToast({ title: "微信号已复制", icon: "success" });
+            },
+            fail(err) {
+                console.error("【复制失败】:", err);
+                wx.showToast({ title: "复制失败", icon: "none" });
+            }
+        });
+    },
+
+    // 🚀 **跳转到退出拼车页面**
+    goToExit() {
+        wx.navigateTo({
+            url: `/pages/exit/exit?id=${this.data.carpool._id}&collection=${this.data.carpool.collectionName}`
+        });
+    }
+});

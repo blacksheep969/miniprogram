@@ -1,0 +1,18 @@
+.carpool-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* ✅ 添加分隔线，清晰显示每条拼车信息 */
+    margin-bottom: 10px;
+  }
+  
+  .route {
+    font-size: 16px;
+    font-weight: bold;
+    display: block; /* ✅ 强制换行 */
+    margin-bottom: 5px; /* ✅ 增加间距 */
+  }
+  
+  .time {
+    font-size: 14px;
+    color: #666;
+    display: block; /* ✅ 强制换行 */
+  }

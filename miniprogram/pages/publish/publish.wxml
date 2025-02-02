@@ -1,0 +1,48 @@
+<view class="container">
+  <text class="label">选择日期</text>
+  <picker mode="date" bindchange="onDateChange">
+    <view class="select-box">{{ date || "请选择日期" }}</view>
+  </picker>
+
+  <text class="label">最佳时间</text>
+  <view class="time-picker">
+    <picker mode="selector" range="{{hours}}" bindchange="onHourChange">
+      <view class="select-box">{{ selectedHour !== null ? selectedHour + " 时" : "选择小时" }}</view>
+    </picker>
+    <picker mode="selector" range="{{minutes}}" bindchange="onMinuteChange">
+      <view class="select-box">{{ selectedMinute !== null ? selectedMinute + " 分" : "选择分钟" }}</view>
+    </picker>
+  </view>
+
+  <text class="label">可接受时间区间</text>
+  <view class="time-picker">
+    <picker mode="selector" range="{{hours}}" bindchange="onStartHourChange">
+      <view class="select-box">{{ startHour !== null ? startHour + " 时" : "起始时间（小时）" }}</view>
+    </picker>
+    <picker mode="selector" range="{{minutes}}" bindchange="onStartMinuteChange">
+      <view class="select-box">{{ startMinute !== null ? startMinute + " 分" : "起始时间（分钟）" }}</view>
+    </picker>
+  </view>
+
+  <view class="time-picker">
+    <picker mode="selector" range="{{hours}}" bindchange="onEndHourChange">
+      <view class="select-box">{{ endHour !== null ? endHour + " 时" : "最后时间（小时）" }}</view>
+    </picker>
+    <picker mode="selector" range="{{minutes}}" bindchange="onEndMinuteChange">
+      <view class="select-box">{{ endMinute !== null ? endMinute + " 分" : "最后时间（分钟）" }}</view>
+    </picker>
+  </view>
+
+  <text class="label">已有几人</text>
+  <picker mode="selector" range="{{peopleOptions}}" bindchange="onPeopleCountChange">
+    <view class="select-box">{{ peopleCount || "请填入已有几人" }}</view>
+  </picker>
+
+  <text class="label">微信号</text>
+  <input class="input-box gray-input" type="text" placeholder="请复制您的微信号并填入" bindinput="onWechatIdChange"/>
+
+  <!-- ✅ 发布按钮移动到底部，并设置绿色背景 -->
+  <view class="bottom-button">
+    <button class="green-button" bindtap="submitForm">发布</button>
+  </view>
+</view>

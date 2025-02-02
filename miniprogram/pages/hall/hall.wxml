@@ -1,0 +1,25 @@
+<view class="container">
+  <!-- ✅ 在“选择日期”按钮上方显示当前路线 -->
+  <view class="selected-route">
+    <text>当前选择的路线：{{ selectedRoute }}</text>
+  </view>
+
+  <!-- ✅ 选择日期按钮 -->
+  <picker mode="date" bindchange="onDateChange">
+    <view class="button-box">{{ selectedDate || "请选择日期" }}</view>
+  </picker>
+
+  <scroll-view>
+  <block wx:for="{{carpoolList}}" wx:key="index">
+    <view class="carpool-item" bindtap="joinCarpool" data-id="{{item._id}}">
+      <text class="info">时间：{{item.bestTime}}（可接受：{{item.timeRange}}）</text>
+      <text class="info">已有：{{item.peopleCount}} 人</text>
+    </view>
+  </block>
+</scroll-view>
+
+  <!-- ✅ 绿色“发布新拼车”按钮，放在页面底部 -->
+  <view class="bottom-button">
+    <button class="green-button" bindtap="goToPublish">点击发布新拼车</button>
+  </view>
+</view>

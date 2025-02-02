@@ -1,0 +1,56 @@
+/* ✅ 让路线显示清晰 */
+.selected-route {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* ✅ 选择日期按钮样式 */
+  .button-box {
+    font-size: 16px;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* ✅ 让“发布新拼车”按钮固定在页面底部 */
+  .bottom-button {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* ✅ 绿色发布按钮 */
+  .green-button {
+    width: 90%;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  /* ✅ 让每条拼车信息有一个带圆角的外边框 */
+.carpool-item {
+    background-color: #ffffff;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd; /* 细边框 */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+  }
+  
+  /* ✅ 让信息排列更整齐 */
+  .info {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-top: 5px;
+  }

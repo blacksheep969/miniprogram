@@ -1,0 +1,35 @@
+{
+    "pages": [
+      "pages/index/index",
+      "pages/hall/hall",
+      "pages/publish/publish",
+      "pages/receive/receive",
+      "pages/my/my",
+      "pages/exit/exit",
+      "pages/carpoolDetail/carpoolDetail"
+    ],
+    "tabBar": {
+      "list": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "路线",
+          "iconPath": "/assets/route.png",
+          "selectedIconPath": "/assets/route_active.png"
+        },
+        {
+          "pagePath": "pages/my/my",
+          "text": "我的",
+          "iconPath": "/assets/my.png",
+          "selectedIconPath": "/assets/my_active.png"
+        }
+      ],
+      "color": "#8a8a8a",
+      "selectedColor": "#ff5722",
+      "backgroundColor": "#ffffff",
+      "borderStyle": "black"
+    },
+    "window": {
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTextStyle": "black"
+      }
+  }

@@ -1,0 +1,9 @@
+<view class="container">
+  <block wx:for="{{myCarpools}}" wx:key="_id">
+    <view class="carpool-item">
+      <text class="route-name">{{item.routeName}}</text>  <!-- ✅ 直接显示路线 -->
+      <text class="time">时间：{{item.date}} {{item.bestTime}}</text>
+      <button bindtap="viewDetails" data-index="{{index}}">查看详情</button>
+    </view>
+  </block>
+</view>
