@@ -1,9 +1,35 @@
 <view class="container">
-  <block wx:for="{{myCarpools}}" wx:key="_id">
-    <view class="carpool-item">
-      <text class="route-name">{{item.routeName}}</text>  <!-- ✅ 直接显示路线 -->
-      <text class="time">时间：{{item.date}} {{item.bestTime}}</text>
-      <button bindtap="viewDetails" data-index="{{index}}">查看详情</button>
-    </view>
-  </block>
+  <text class="title">🚗 我的拼车列表</text>  
+
+  <!-- 添加灰色的小字 -->
+  <text class="info-text">  数据仅保留两天  拼车完成后无需退出</text> 
+
+  <scroll-view class="scroll-container" scroll-y="true">
+    <block wx:if="{{myCarpools.length > 0}}">
+      <block wx:for="{{myCarpools}}" wx:key="_id">
+        <view class="carpool-item">
+          <text class="route-name">📍 {{item.routeName}}</text>
+          <text class="time">📅 时间：{{item.date}} ⏰ {{item.bestTime}}</text>
+
+          <!-- ✅ 只有车头才显示“我是车头” -->
+          <text wx:if="{{item.isHead}}" class="head-label">👑 我是车头</text>
+
+          <button class="detail-button" bindtap="viewDetails" data-index="{{index}}">
+            查看详情
+          </button>
+        </view>
+      </block>
+    </block>
+
+    <block wx:else> 
+      <view class="empty-box">
+        <text class="empty-text">暂无拼车信息</text>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 新增反馈按钮 -->
+  <view class="feedback-button-box">
+    <button class="feedback-button" bindtap="goToFeedback">不好用？点击来骂研发小哥</button>
+  </view>
 </view>

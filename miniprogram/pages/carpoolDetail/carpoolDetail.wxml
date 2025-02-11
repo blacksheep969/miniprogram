@@ -6,6 +6,7 @@
     <text class="info">⏰ 最佳时间：{{carpool.bestTime}}</text>
     <text class="info">⏳ 可接受时间：{{carpool.timeRange}}</text>
     <text class="info">👥 已有：{{carpool.peopleCount}} 人</text>
+    <text class="info">🚻 性别要求：{{carpool.genderRequirement}}</text> <!-- ✅ 只显示性别要求 -->
   </view>
 
   <!-- 车队成员列表 -->
@@ -13,7 +14,7 @@
     <text class="member-title">🚗 车队成员</text>
     <block wx:for="{{carpool.participants}}" wx:key="openid">
       <view class="member-item">
-        <text class="member-label">{{item.role}}：</text>
+        <text class="member-label">{{index === 0 ? "🚀 车头：" : "👤 成员" + index + "："}}</text>
         <text class="member-wechat" selectable="true" bindtap="copyWechat" data-wechat="{{item.wechatId}}">
           {{item.wechatId}}（点击复制）
         </text>
@@ -25,8 +26,11 @@
   <view class="notice">
     <text class="notice-text">✅ 成员仅需加车头微信即可</text>
     <text class="notice-text">📢 加上好友后请保持联系</text>
+    <text class="notice-text">🚗 由车头最终打车</text>
+    <text class="notice-text">📢 拼车正常完成后无需手动退出，数据将自行清除</text>
   </view>
 
-  <!-- 🚀 退出拼车按钮（仅在用户已加入该拼车时显示） -->
-  <button wx:if="{{isJoined}}" class="exit-button" bindtap="goToExit">退出拼车</button>
+  <!-- 确保只有加入的用户才能看到退出按钮 -->
+    <button class="exit-button" wx:if="{{isJoined}}" bindtap="goToExit">退出拼车</button>
+
 </view>

@@ -57,7 +57,6 @@ Page({
 
     // **✅ 获取集合名称**
     getCollectionName(id) {
-        // 这里假设不同路线的 ID 规则不同，如果有特定逻辑请替换
         const routeCollections = {
             "schoolToJZ_requests": "学校 → 九州",
             "JZToSchool_requests": "九州 → 学校",
@@ -79,73 +78,125 @@ Page({
         this.setData({ userWechatId: e.detail.value.trim() });
     },
 
+    // **确认加入并支付**
     confirmAndPay() {
         const wechatId = this.data.userWechatId ? this.data.userWechatId.trim() : "";
-    
+        
         if (!wechatId) {
             wx.showToast({ title: "请填写微信号", icon: "none" });
             return;
         }
     
-        const db = wx.cloud.database();
         const { carpool } = this.data;
-    
-        if (!carpool || !carpool._id) {
-            wx.showToast({ title: "数据错误，请重试", icon: "none" });
-            return;
-        }
-    
         const openid = wx.getStorageSync("openid");
     
-        if (carpool.participants.length >= 4) {
-            wx.showToast({ title: "车队已满", icon: "none" });
-            return;
-        }
+        console.log("【即将调用云函数】joinCarpool");
+        console.log("【参数】:", {
+            carpoolId: carpool._id,
+            userOpenid: openid,
+            userWechatId: wechatId,
+            collectionName: carpool.collectionName
+        });
     
-        const newParticipant = { openid, wechatId };
+        // ✅ 调用支付功能
+        this.initiatePayment(openid, carpool, wechatId);
+    },
+
+
+
+
+    // **调用支付功能**
+    initiatePayment(openid, carpoolData, wechatId) {
+        wx.cloud.callFunction({
+            name: 'wxpayFunctions',
+            data: {
+                type: 'wxpay_order',
+                openid: openid,
+                carpoolData: carpoolData
+            },
+            success: (res) => {
+                console.log("下单结果: ", res);
+                const paymentData = res.result?.data;
+                
+                // 调用微信支付组件
+                wx.requestPayment({
+                    timeStamp: paymentData?.timeStamp,
+                    nonceStr: paymentData?.nonceStr,
+                    package: paymentData?.packageVal,
+                    paySign: paymentData?.paySign,
+                    signType: 'RSA',
+                    success: (payRes) => {
+                        console.log('支付成功：', payRes);
+                        
+                        // 支付成功后再调用加入拼车的云函数
+                        this.joinCarpool(openid, carpoolData, wechatId);
+                    },
+                    fail: (err) => {
+                        console.error('支付失败：', err);
+                        wx.showToast({ title: "支付失败，请重试", icon: "none" });
+                    }
+                });
+            },
+            fail: (err) => {
+                console.error("支付请求失败", err);
+                wx.showToast({ title: "支付请求失败，请重试", icon: "none" });
+            }
+        });
+    },
+
+    // **加入拼车**
+    joinCarpool(openid, carpoolData, wechatId) {
+        wx.cloud.callFunction({
+            name: "joinCarpool",
+            data: {
+                carpoolId: carpoolData._id,
+                userOpenid: openid,
+                userWechatId: wechatId,
+                collectionName: carpoolData.collectionName
+            },
+            success: res => {
+                console.log("【完整的云函数返回数据】:", res);
     
-        // **确保车头（发布者）在第一位**
-        let updatedParticipants = [...carpool.participants, newParticipant];
-        updatedParticipants.sort((a, b) => (a.openid === carpool._openid ? -1 : 1));
-    
-        let updatedPeopleCount = carpool.peopleCount + 1; 
-    
-        console.log("【更新后的 participants】:", updatedParticipants);
-        console.log("【更新后的 peopleCount】:", updatedPeopleCount);
-    
-        db.collection(carpool.collectionName)
-          .doc(carpool._id)
-          .update({
-              data: {
-                  participants: updatedParticipants,
-                  peopleCount: updatedPeopleCount,  // ✅ 正确计算 peopleCount
-              }
-          })
-          .then(() => {
-              console.log("【数据库更新成功】");
-    
-              // ✅ 立刻更新页面数据
-              this.setData({
-                  "carpool.participants": updatedParticipants,
-                  "carpool.peopleCount": updatedPeopleCount
-              });
-    
-              // ✅ 显示弹窗提示用户去“我的”页面添加车头微信
-              wx.showModal({
-                  title: "加入成功",
-                  content: "请前往“我的”页面添加车头微信，以便联系拼车成员。",
-                  showCancel: false,
-                  confirmText: "去查看",
-                  success: (res) => {
-                      if (res.confirm) {
-                          wx.switchTab({ url: "/pages/my/my" }); // 🚀 跳转到“我的”页面
-                      }
-                  }
-              });
-          })
-          .catch((err) => {
-              console.error("【加入拼车失败】:", err);
-              wx.showToast({ title: "加入失败，请重试", icon: "none" });
-          });
+                if (res.result && res.result.success) {
+                    wx.showModal({
+                        title: "加入成功",
+                        content: "请前往“我的”页面添加车头微信，以便联系拼车成员。",
+                        showCancel: false,
+                        confirmText: "去查看",
+                        success: (res) => {
+                            if (res.confirm) {
+                                wx.switchTab({ url: "/pages/my/my" });
+                            }
+                        }
+                    });
+
+                    // **更新加入统计**：更新用户的加入次数
+                    this.updateJoinStats(openid);
+                } else {
+                    console.warn("【云函数返回失败】:", res.result);
+                    wx.showToast({ title: res.result?.message || "加入失败，请重试", icon: "none" });
+                }
+            },
+            fail: err => {
+                console.error("【云函数调用失败】:", err);
+                wx.showToast({ title: "加入失败，请重试", icon: "none" });
+            }
+        });
+    },
+
+    // **更新加入统计**
+    updateJoinStats(openid) {
+        wx.cloud.callFunction({
+            name: 'updateJoinStats',  // 这个云函数会增加“加入次数”
+            data: {
+                openid
+            },
+            success: res => {
+                console.log("加入统计更新成功", res);
+            },
+            fail: err => {
+                console.error("加入统计更新失败", err);
+            }
+        });
     }
 });

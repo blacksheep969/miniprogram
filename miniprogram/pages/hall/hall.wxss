@@ -18,16 +18,18 @@
     font-weight: bold;
   }
   
-  /* ✅ 让“发布新拼车”按钮固定在页面底部 */
-  .bottom-button {
+  /* 让发布按钮固定在底部 */
+.bottom-button {
     position: fixed;
     bottom: 20px;
     width: 100%;
     text-align: center;
-  }
-  
-  /* ✅ 绿色发布按钮 */
-  .green-button {
+    background-color: white; /* 🚀 防止按钮被透明内容遮挡 */
+    padding-top: 10px;
+    }
+
+  /* 设置发布按钮 */
+.green-button {
     width: 90%;
     font-size: 18px;
     font-weight: bold;
@@ -36,7 +38,7 @@
     border: none;
     padding: 12px;
     border-radius: 8px;
-  }
+}
   /* ✅ 让每条拼车信息有一个带圆角的外边框 */
 .carpool-item {
     background-color: #ffffff;
@@ -54,3 +56,13 @@
     color: #333;
     margin-top: 5px;
   }
+  .self-post {
+    color: #ff0000; /* 红色字体 */
+    font-weight: bold;
+    margin-left: 10rpx;
+  }
+
+  /* 让信息列表底部有足够空间，避免被按钮遮挡 */
+.scroll-container {
+    padding-bottom: 80px; /* 🚀 预留底部空间，避免被按钮挡住 */
+}

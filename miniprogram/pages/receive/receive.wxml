@@ -7,14 +7,13 @@
       <text class="info">⏰ 最佳时间：{{carpool.bestTime}}</text>
       <text class="info">⏳ 可接受时间：{{carpool.timeRange}}</text>
       <text class="info">👥 已有：{{carpool.peopleCount}} 人</text>
+      <text class="info">🚻 性别要求：{{carpool.genderRequirement}}</text> <!-- ✅ 只显示性别要求 -->
     </view>
 
-    <!-- 用户输入自己的微信号 -->
     <text class="label">您的微信号</text>
-    <input class="input-box" type="text" placeholder="请输入您的微信号" bindinput="onWechatIdInput"/>
+    <input class="input-box" type="text" placeholder="请复制您的微信号" bindinput="onWechatIdInput"/>
 
-    <!-- 确认并支付 -->
-    <button class="pay-button" bindtap="confirmAndPay">确认并支付</button>
+    <button class="pay-button" bindtap="confirmAndPay">确认并支付 试运营期间最底价0.01元</button>
   </view>
 
   <view wx:else>

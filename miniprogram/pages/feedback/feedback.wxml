@@ -1,0 +1,20 @@
+<view class="container">
+  <text class="title">🚗 用户反馈</text>
+
+  <!-- 反馈表单 -->
+  <textarea class="feedback-input" placeholder="请在此输入您的反馈..." bindinput="onFeedbackInput" />
+
+  <view class="button-box">
+    <button class="feedback-submit" bindtap="submitFeedback">提交反馈（扔给研发小哥一颗臭鸡蛋）</button>
+  </view>
+
+  <!-- 新增：研发小哥的微信号 -->
+  <view class="contact-info">
+    <text class="contact-text">研发小哥的微信：<text class="wechat-id" bindtap="copyWechatId">MY_BLACKSHEEP</text></text>
+  </view>
+
+  <!-- 新增：提示可能会联系用户 -->
+  <view class="contact-info">
+    <text class="contact-text">研发小哥后续可能会联系你</text>
+  </view>
+</view>

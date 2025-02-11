@@ -2,9 +2,9 @@
     font-size: 18px;
     font-weight: bold;
     margin-top: 15px;
-  }
-  
-  .select-box {
+}
+
+.select-box {
     font-size: 16px;
     padding: 10px;
     margin: 5px 0;
@@ -12,48 +12,47 @@
     border-radius: 5px;
     background-color: #f9f9f9;
     text-align: center;
-  }
-  
-  .input-box {
+}
+
+.input-box {
     font-size: 16px;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     width: 100%;
-  }
-  
-  /* ✅ 让微信号输入框也变成灰色样式 */
-  .gray-input {
+}
+
+.gray-input {
     background-color: #f9f9f9;
     color: #333;
-  }
-  
-  /* ✅ 时间选择框 */
-  .time-picker {
+}
+
+/* 时间选择框 */
+.time-picker {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-  }
-  
-  .time-picker picker {
+}
+
+.time-picker picker {
     width: 45%;
     text-align: center;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
-  
-  /* ✅ 让发布按钮固定在页面底部 */
-  .bottom-button {
+}
+
+/* 让发布按钮固定在页面底部 */
+.bottom-button {
     position: fixed;
     bottom: 20px;
     width: 100%;
     text-align: center;
-  }
-  
-  /* ✅ 设置发布按钮为绿色 */
-  .green-button {
+}
+
+/* 设置发布按钮为绿色 */
+.green-button {
     width: 90%;
     font-size: 18px;
     font-weight: bold;
@@ -62,4 +61,9 @@
     border: none;
     padding: 12px;
     border-radius: 8px;
-  }
+}
+
+/* 页面内容区域的 padding */
+.container {
+    padding-bottom: 80px; /* 防止内容被固定按钮遮挡 */
+}

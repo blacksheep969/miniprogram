@@ -6,7 +6,8 @@
       "pages/receive/receive",
       "pages/my/my",
       "pages/exit/exit",
-      "pages/carpoolDetail/carpoolDetail"
+      "pages/carpoolDetail/carpoolDetail",
+      "pages/feedback/feedback"
     ],
     "tabBar": {
       "list": [

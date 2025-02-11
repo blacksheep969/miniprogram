@@ -53,6 +53,13 @@ Page({
 
     // 🚀 **跳转到退出拼车页面**
     goToExit() {
+        console.log("🚪 退出拼车，拼车ID:", this.data.carpool._id, "集合:", this.data.carpool.collectionName);
+    
+        if (!this.data.carpool._id || !this.data.carpool.collectionName) {
+            wx.showToast({ title: "数据错误，无法退出", icon: "none" });
+            return;
+        }
+
         wx.navigateTo({
             url: `/pages/exit/exit?id=${this.data.carpool._id}&collection=${this.data.carpool.collectionName}`
         });

@@ -4,18 +4,35 @@
     <text>当前选择的路线：{{ selectedRoute }}</text>
   </view>
 
-  <!-- ✅ 选择日期按钮 -->
-  <picker mode="date" bindchange="onDateChange">
+    <!-- ✅ 选择日期（限制 14 天） -->
+    <picker mode="selector" range="{{ dateOptions }}" bindchange="onDateChange">
     <view class="button-box">{{ selectedDate || "请选择日期" }}</view>
   </picker>
 
-  <scroll-view>
-  <block wx:for="{{carpoolList}}" wx:key="index">
-    <view class="carpool-item" bindtap="joinCarpool" data-id="{{item._id}}">
-      <text class="info">时间：{{item.bestTime}}（可接受：{{item.timeRange}}）</text>
-      <text class="info">已有：{{item.peopleCount}} 人</text>
-    </view>
-  </block>
+  <!-- ✅ 选择性别按钮 -->
+  <picker mode="selector" range="{{ genderOptions }}" bindchange="onGenderChange">
+    <view class="button-box">{{ selectedGender || "请选择性别" }}</view>
+  </picker>
+
+  <scroll-view class="scroll-container">
+    <block wx:for="{{carpoolList}}" wx:key="_id">
+      <view class="carpool-item" 
+        bindtap="{{item.isMyPost ? '' : 'joinCarpool'}}" 
+        data-id="{{item._id}}" 
+        data-my-post="{{item.isMyPost}}">
+        
+        <text class="info">
+          时间：{{item.bestTime}}（可接受：{{item.timeRange}}）
+        </text>
+        <text class="info">已有：{{item.peopleCount}} 人</text>
+
+        <!-- ✅ 显示性别限定信息 -->
+        <text class="info">🔹 性别限定：{{item.genderRequirement || "不限"}}</text>
+
+        <!-- ✅ 如果是自己发布的，显示“（我发布的）” -->
+        <text wx:if="{{item.isMyPost}}" class="self-post">（我已经加入的）</text>
+      </view>
+    </block>
 </scroll-view>
 
   <!-- ✅ 绿色“发布新拼车”按钮，放在页面底部 -->
