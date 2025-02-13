@@ -63,3 +63,11 @@
     background-color: #fff5cc;
     text-align: center;
   }
+
+  /* 让行李负担信息突出 */
+.info-luggage {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 10rpx;
+}

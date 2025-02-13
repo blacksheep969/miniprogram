@@ -7,7 +7,8 @@
       "pages/my/my",
       "pages/exit/exit",
       "pages/carpoolDetail/carpoolDetail",
-      "pages/feedback/feedback"
+      "pages/feedback/feedback",
+      "pages/updateLog/updateLog"
     ],
     "tabBar": {
       "list": [

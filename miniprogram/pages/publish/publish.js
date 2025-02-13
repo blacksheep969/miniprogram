@@ -12,6 +12,10 @@ Page({
         endHour: null,
         endMinute: null,
 
+        luggageOptions: ["无行李 0人份", "小件行李 1人份", "超多行李 2人份"], 
+        selectedLuggage: "", // ✅ 初始化为 ""
+        luggageCount: 0 ,// ✅ 初始化行李数量
+
         hours: Array.from({ length: 24 }, (_, i) => i),
         minutes: Array.from({ length: 12 }, (_, i) => i * 5),
         peopleOptions: [1, 2, 3],
@@ -78,6 +82,20 @@ Page({
         this.setData({ endMinute: Number(this.data.minutes[e.detail.value]) });
     },
 
+    onLuggageChange(e) {
+        const selectedIndex = e.detail.value;
+        const selectedText = this.data.luggageOptions[selectedIndex];
+    
+        // 提取数值，例如 "小件行李 1人份" -> 1
+        const luggageCount = parseInt(selectedText.match(/\d+/)[0], 10);
+    
+        this.setData({ 
+            selectedLuggage: selectedText, // ✅ 存储选项的文本
+            luggageCount: luggageCount  // ✅ 存储行李份数
+        });
+    }
+    ,
+
     onPeopleCountChange(e) {
         this.setData({ peopleCount: this.data.peopleOptions[e.detail.value] });
     },
@@ -92,12 +110,13 @@ Page({
 
     submitForm() {
         const { selectedRoute, isOtherRoute, selectedDate, selectedHour, selectedMinute, 
-                startHour, startMinute, endHour, endMinute, peopleCount, wechatId, selectedGender } = this.data;
+            startHour, startMinute, endHour, endMinute, peopleCount, wechatId, 
+            selectedGender, luggageCount, selectedLuggage  } = this.data; // ✅ 解构 selectedLuggage
     
         if (!selectedDate || selectedHour === null || selectedMinute === null ||
             startHour === null || startMinute === null ||
             endHour === null || endMinute === null ||
-            peopleCount === "" || wechatId === "" || !selectedGender) {
+            peopleCount === "" || wechatId === "" || !selectedGender|| !selectedLuggage) {
             wx.showToast({ title: "请填写完整信息", icon: "none" });
             return;
         }
@@ -127,7 +146,9 @@ Page({
             wechatId,
             collectionName,
             genderRequirement: selectedGender, // ✅ 存入性别要求
-            participants: [{ openid, wechatId }]
+            luggageLoad: luggageCount, // ✅ 记录发布者行李负担
+            hidden: false, // 🚀 新增拼车时默认可见
+            participants: [{ openid, wechatId, luggage: selectedLuggage }]
         };
     
         if (isOtherRoute) {

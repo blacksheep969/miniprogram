@@ -11,8 +11,13 @@
           <text class="route-name">📍 {{item.routeName}}</text>
           <text class="time">📅 时间：{{item.date}} ⏰ {{item.bestTime}}</text>
 
-          <!-- ✅ 只有车头才显示“我是车头” -->
-          <text wx:if="{{item.isHead}}" class="head-label">👑 我是车头</text>
+          <!-- ✅ 让“我是车头”和“当前行李负担”分开 -->
+          <view class="info-line">
+            <text class="info">🎒 当前后备箱行李负担：已有{{item.luggageLoad}}人份/最多4人份</text>
+          <view class="info-line">
+            <text wx:if="{{item.isHead}}" class="head-label">👑 我是车头</text>
+           </view>
+          </view>
 
           <button class="detail-button" bindtap="viewDetails" data-index="{{index}}">
             查看详情

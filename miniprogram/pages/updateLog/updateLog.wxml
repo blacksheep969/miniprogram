@@ -1,0 +1,19 @@
+<view class="container">
+  <text class="title">📢 版本更新日志</text>
+  
+  <scroll-view class="log-container">
+    <block wx:for="{{updateLogs}}" wx:key="index">
+      <view class="log-item">
+        <text class="log-title">版本：{{item.version}}</text>
+        <text class="log-date">📅发布日期：{{item.date}}</text>
+
+        <!-- 遍历数组内容，每条单独一行 -->
+        <view class="log-content">
+          <block wx:for="{{item.content}}" wx:key="subIndex">
+            <text class="log-text">🔹 {{item}}</text>
+          </block>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>

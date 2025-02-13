@@ -83,3 +83,21 @@
     font-size: 32rpx;
     border-radius: 8rpx;
 }
+
+/* 让信息行排列整齐 */
+.info-line {
+    margin-top: 5px;
+    display: block;
+  }
+  
+  /* 让“我是车头”加粗 */
+  .head-label {
+    font-weight: bold;
+    color: red;
+  }
+  
+  /* 让行李信息有区分 */
+  .info {
+    font-size: 16px;
+    color: #333;
+  }

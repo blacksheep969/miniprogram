@@ -8,6 +8,7 @@
       <text class="info">⏳ 可接受时间：{{carpool.timeRange}}</text>
       <text class="info">👥 已有：{{carpool.peopleCount}} 人</text>
       <text class="info">🚻 性别要求：{{carpool.genderRequirement}}</text> <!-- ✅ 只显示性别要求 -->
+      <text class="info">🎒 当前行李负担：{{carpool.luggageLoad}}人份</text> <!-- ✅ 让用户清楚行李状况 -->
     </view>
 
     <text class="label">您的微信号</text>

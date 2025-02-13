@@ -4,7 +4,7 @@ cloud.init({ env: "blacksheep-6g40uxj910ea868f" });
 const db = cloud.database();
 
 exports.main = async (event, context) => {
-  const { carpoolId, userOpenid, userWechatId, collectionName } = event;
+  const { carpoolId, userOpenid, userWechatId, collectionName, luggage  } = event;
   
   console.log("【云函数被调用】参数:", event);
 
@@ -27,6 +27,22 @@ exports.main = async (event, context) => {
   if (alreadyJoined) {
     return { success: false, message: "您已在该拼车队伍中" };
   }
+ 
+  // ✅ **计算新 `luggageLoad`（总行李占用）**
+  const luggageMap = {
+    "无行李 0人份": 0,
+    "小件行李 1人份": 1,
+    "超多行李 2人份": 2
+  };
+  const userLuggageLoad = luggageMap[luggage] || 0;
+
+  const currentLuggageLoad = carpool.luggageLoad || 0;
+  const updatedLuggageLoad = currentLuggageLoad + userLuggageLoad;
+
+  // 🚨 **检查行李是否超载（假设最大承载 4 人份）**
+  if (updatedLuggageLoad > 4) {
+    return { success: false, message: "行李超载，无法加入该拼车" };
+  }
 
   // ✅ **正确计算新 `peopleCount`**
   const updatedPeopleCount = carpool.peopleCount + 1; // **peopleCount 需要+1**
@@ -45,7 +61,8 @@ exports.main = async (event, context) => {
     await db.collection(collectionName).doc(carpoolId).update({
       data: {
         participants: updatedParticipants,
-        peopleCount: updatedPeopleCount
+        peopleCount: updatedPeopleCount,
+        luggageLoad: updatedLuggageLoad // ✅ 更新行李负担
       }
     });
 

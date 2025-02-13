@@ -1,4 +1,5 @@
 const db = wx.cloud.database();
+const _ = db.command;
 
 // 线路映射表（routeId → 中文名称）
 const routeMap = {
@@ -51,12 +52,16 @@ Page({
         const year = futureDate.getFullYear();
         const month = (futureDate.getMonth() + 1).toString().padStart(2, "0");
         const day = futureDate.getDate().toString().padStart(2, "0");
+        const dateStr = `${year}-${month}-${day}`;
 
         dateOptions.push(`${year}-${month}-${day}`);
     }
 
-    this.setData({ dateOptions });
+    this.setData({ dateOptions }, () => {
+      this.fetchCarpoolCounts(); // ✅ 查询每个日期的拼车数量
+    });
   },
+
 
   onShow() {
     console.log("【信息大厅】页面刷新");
@@ -65,6 +70,42 @@ Page({
       wx.setStorageSync("carpoolUpdated", false);
       this.fetchCarpools();
     }
+  },
+
+   // 🚀 **查询未来 15 天的拼车数量**
+   fetchCarpoolCounts() {
+    const { dateOptions, isOtherRoute } = this.data;
+    let collectionName = isOtherRoute ? "other_routes_requests" : `${wx.getStorageSync("selectedRoute")}_requests`;
+    
+    const promises = dateOptions.map(date => {
+      return db.collection(collectionName)
+        .where({
+          date: date,
+          peopleCount: _.lt(4), // ✅ 只查询未满员的拼车
+          hidden: _.neq(true) // ✅ 过滤掉隐藏的拼车
+        })
+        .count()
+        .then(res => {
+            return res.total > 0 ? { date, count: res.total } : null; // 🚀 只保留有拼车的日期
+        });
+    });
+
+    Promise.all(promises).then(results => {
+        let dateCarpoolCount = {};
+        let filteredDateOptions = [];
+
+        results.forEach(result => {
+            if (result) {  // 🚀 **只存入有拼车记录的日期**
+                dateCarpoolCount[result.date] = result.count;
+                filteredDateOptions.push(result.date);
+            }
+        });
+
+        console.log("【拼车数量统计】", dateCarpoolCount);
+        this.setData({ dateCarpoolCount, filteredDateOptions });
+    }).catch(err => {
+      console.error("【查询拼车数量失败】:", err);
+    });
   },
 
   // 🚀 **用户选择日期**
@@ -118,14 +159,16 @@ Page({
 
     console.log("【查询条件】:", {
         date: selectedDate,
-        peopleCount: db.command.lt(4),
+        peopleCount: db.command.lt(4),  // 🚀 **排除满员拼车**
+        hidden: false,                  // 🚀 **排除隐藏拼车**
         $or: genderQuery 
     });
 
     db.collection(collectionName)
       .where({
         date: selectedDate,
-        peopleCount: db.command.lt(4), 
+        peopleCount: db.command.lt(4), // 🚀 **排除满员拼车**
+        hidden: false,                 // 🚀 **排除隐藏拼车**
         $or: genderQuery  
       })
       .get()
@@ -134,7 +177,8 @@ Page({
 
         const processedData = res.data.map(item => ({
           ...item,
-          isMyPost: item.participants && item.participants.some(p => p.openid === openid)
+          isMyPost: item.participants && item.participants.some(p => p.openid === openid),
+          luggageLoad: item.luggageLoad || 0  // ✅ 确保 `luggageLoad` 正确传递
         }));
 
         this.setData({ carpoolList: processedData });

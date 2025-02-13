@@ -4,8 +4,8 @@
     <text>当前选择的路线：{{ selectedRoute }}</text>
   </view>
 
-    <!-- ✅ 选择日期（限制 14 天） -->
-    <picker mode="selector" range="{{ dateOptions }}" bindchange="onDateChange">
+  <!-- ✅ 选择日期（限制 14 天） -->
+  <picker mode="selector" range="{{ dateOptions }}" bindchange="onDateChange">
     <view class="button-box">{{ selectedDate || "请选择日期" }}</view>
   </picker>
 
@@ -15,6 +15,40 @@
   </picker>
 
   <scroll-view class="scroll-container">
+    <!-- ✅ 如果用户没有选择日期或性别，显示提示框 -->
+    <!-- ✅ 如果用户没有选择日期或性别，显示提示框 -->
+    <block wx:if="{{ !selectedDate || !selectedGender }}">
+      <view class="carpool-item info-box">
+        <text class="info">❗ 请先在上面选择日期和性别</text>
+      </view>
+
+      <!-- 🚀 **显示未来 15 天的拼车统计信息** -->
+      <view class="carpool-summary">
+    <text class="summary-title">📅 各日期拼车情况（10秒左右刷新）：</text>
+
+    <!-- ✅ 当 filteredDateOptions 为空时，显示提示图片 -->
+    <block wx:if="{{filteredDateOptions.length === 0}}">
+        <image class="no-data-image" src="/assets/no_carpool.png" mode="widthFix"></image>
+    </block>
+
+    <block wx:for="{{filteredDateOptions}}" wx:key="index">
+        <text class="summary-item">
+            {{item}}: 已有 {{dateCarpoolCount[item]}} 条拼车
+        </text>
+    </block>
+</view>
+    </block>
+
+    <!-- ✅ 如果用户选择了日期和性别，但没有拼车信息，显示提示框 -->
+    <block wx:if="{{ selectedDate && selectedGender && carpoolList.length === 0 }}">
+      <view class="carpool-item info-box">
+        <text class="info">📢 暂无合适拼车，建议在最下面自己发布</text>
+      </view>
+    </block>
+
+
+
+    <!-- ✅ 显示拼车信息 -->
     <block wx:for="{{carpoolList}}" wx:key="_id">
       <view class="carpool-item" 
         bindtap="{{item.isMyPost ? '' : 'joinCarpool'}}" 
@@ -25,15 +59,17 @@
           时间：{{item.bestTime}}（可接受：{{item.timeRange}}）
         </text>
         <text class="info">已有：{{item.peopleCount}} 人</text>
+        <text class="info">🎒 当前后备箱行李负担：已有{{item.luggageLoad || 0}}人份/最多4人份</text>
+
 
         <!-- ✅ 显示性别限定信息 -->
         <text class="info">🔹 性别限定：{{item.genderRequirement || "不限"}}</text>
 
-        <!-- ✅ 如果是自己发布的，显示“（我发布的）” -->
+        <!-- ✅ 如果是自己发布的，显示“（我已经加入的）” -->
         <text wx:if="{{item.isMyPost}}" class="self-post">（我已经加入的）</text>
       </view>
     </block>
-</scroll-view>
+  </scroll-view>
 
   <!-- ✅ 绿色“发布新拼车”按钮，放在页面底部 -->
   <view class="bottom-button">

@@ -2,6 +2,7 @@ Page({
     data: {
         carpool: null,
         openid: "",
+        isHead: false,
         isJoined: false // 🚀 判断用户是否在该拼车内
     },
 
@@ -9,18 +10,18 @@ Page({
         const openid = wx.getStorageSync("openid");
         let carpool = wx.getStorageSync("selectedCarpool");  
         console.log("【接收的拼车信息】:", carpool);
-
+    
         if (!carpool) {
             wx.showToast({ title: "数据错误，请返回", icon: "none" });
             wx.navigateBack();
             return;
         }
-
+    
         // **确保车头在第一位**
         if (carpool.participants && carpool.participants.length > 0) {
             carpool.participants.sort((a, b) => (a.openid === carpool._openid ? -1 : 1));
         }
-
+    
         // **为车队成员加上角色标签**
         carpool.participants = carpool.participants.map((member, index) => {
             return {
@@ -28,12 +29,41 @@ Page({
                 role: index === 0 ? "🚀 车头" : `👤 成员 ${index}`
             };
         });
-
+    
         // 🚀 **判断当前用户是否在该拼车中**
         const isJoined = carpool.participants.some(member => member.openid === openid);
-
-        this.setData({ carpool, openid, isJoined });
+    
+        // 🚀 **判断当前用户是否是车头**
+        const isHead = carpool.participants.length > 0 && carpool.participants[0].openid === openid;
+    
+        // 🚀 **确保 hidden 字段有值**
+        if (carpool.hidden === undefined) {
+            carpool.hidden = false; // 默认不隐藏
+        }
+    
+        this.setData({ carpool, openid, isJoined, isHead });
     },
+
+    // 🚀 **切换拼车的隐藏状态**
+  toggleVisibility() {
+    const { carpool } = this.data;
+    const newHiddenState = !carpool.hidden; // 取反
+
+    wx.cloud.database().collection(carpool.collectionName)
+      .doc(carpool._id)
+      .update({
+        data: { hidden: newHiddenState }
+      })
+      .then(() => {
+        wx.showToast({ title: newHiddenState ? "已隐藏拼车" : "拼车已恢复", icon: "success" });
+
+        this.setData({ [`carpool.hidden`]: newHiddenState });
+      })
+      .catch(err => {
+        console.error("【隐藏拼车失败】:", err);
+        wx.showToast({ title: "操作失败，请重试", icon: "none" });
+      });
+  },
 
     copyWechat(e) {
         const wechatId = e.currentTarget.dataset.wechat;

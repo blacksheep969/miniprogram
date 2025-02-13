@@ -12,4 +12,9 @@
     <input type="text" placeholder="请输入自定义路线" bindinput="onInputChange" />
     <button bindtap="confirmOtherRoute"><text class="nowrap">确认</text></button>
   </view>
+
+   <!-- ✅ 查看版本更新按钮 -->
+   <view class="update-box">
+    <button class="update-button" bindtap="goToUpdateLogs">点击查看版本更新内容</button>
+  </view>
 </view>

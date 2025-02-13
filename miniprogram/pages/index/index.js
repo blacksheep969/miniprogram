@@ -5,6 +5,12 @@ Page({
         allowOtherRoutes: false // 🚀 未来改成 `true` 即可开放
     },
 
+    goToUpdateLogs() {
+        wx.navigateTo({
+          url: "/pages/updateLog/updateLog"
+        });
+      },
+
     selectRoute(event) {
         const route = event.currentTarget.dataset.route;
         wx.setStorageSync("selectedRoute", route);

@@ -5,10 +5,10 @@
     text-align: center;
     color: #333;
     margin-bottom: 10px;
-  }
+}
   
-  /* ✅ 选择日期按钮样式 */
-  .button-box {
+/* ✅ 选择日期按钮样式 */
+.button-box {
     font-size: 16px;
     padding: 12px;
     margin: 10px 0;
@@ -16,9 +16,9 @@
     background-color: #f0f0f0;
     text-align: center;
     font-weight: bold;
-  }
-  
-  /* 让发布按钮固定在底部 */
+}
+
+/* 让发布按钮固定在底部 */
 .bottom-button {
     position: fixed;
     bottom: 20px;
@@ -26,9 +26,9 @@
     text-align: center;
     background-color: white; /* 🚀 防止按钮被透明内容遮挡 */
     padding-top: 10px;
-    }
+}
 
-  /* 设置发布按钮 */
+/* 设置发布按钮 */
 .green-button {
     width: 90%;
     font-size: 18px;
@@ -39,7 +39,8 @@
     padding: 12px;
     border-radius: 8px;
 }
-  /* ✅ 让每条拼车信息有一个带圆角的外边框 */
+
+/* ✅ 让每条拼车信息有一个带圆角的外边框 */
 .carpool-item {
     background-color: #ffffff;
     padding: 15px;
@@ -47,22 +48,39 @@
     border-radius: 8px;
     border: 1px solid #ddd; /* 细边框 */
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
-  }
-  
-  /* ✅ 让信息排列更整齐 */
-  .info {
+}
+
+/* ✅ 让信息排列更整齐 */
+.info {
     display: block;
     font-size: 16px;
     color: #333;
     margin-top: 5px;
-  }
-  .self-post {
+}
+
+/* ✅ 让提示框的样式与拼车信息框保持一致 */
+.info-box {
+    text-align: center;
+    font-weight: bold;
+    color: #FF5722; /* 橙色，提示信息更醒目 */
+}
+
+/* ✅ 让“我已经加入的”显示为红色 */
+.self-post {
     color: #ff0000; /* 红色字体 */
     font-weight: bold;
     margin-left: 10rpx;
-  }
+}
 
-  /* 让信息列表底部有足够空间，避免被按钮遮挡 */
+/* ✅ 让信息列表底部有足够空间，避免被按钮遮挡 */
 .scroll-container {
     padding-bottom: 80px; /* 🚀 预留底部空间，避免被按钮挡住 */
+}
+
+/* ✅ 无拼车信息时的图片样式 */
+.no-data-image {
+    width: 60%;
+    margin: 20px auto;
+    display: block;
+    opacity: 0.7; /* 半透明效果 */
 }

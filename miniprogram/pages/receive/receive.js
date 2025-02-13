@@ -1,7 +1,9 @@
 Page({
     data: {
         carpool: null,
-        userWechatId: "" // ✅ 确保变量存在
+        userWechatId: "" ,// ✅ 确保变量存在
+        luggageOptions: ["无行李 0人份", "小件行李 1人份", "超多行李 2人份"],
+        selectedLuggage: ""
     },
 
     onLoad(options) {
@@ -78,12 +80,22 @@ Page({
         this.setData({ userWechatId: e.detail.value.trim() });
     },
 
+    onLuggageChange(e) {
+        this.setData({ selectedLuggage: this.data.luggageOptions[e.detail.value] });
+    },
+
+
     // **确认加入并支付**
     confirmAndPay() {
         const wechatId = this.data.userWechatId ? this.data.userWechatId.trim() : "";
         
         if (!wechatId) {
             wx.showToast({ title: "请填写微信号", icon: "none" });
+            return;
+        }
+
+        if (!this.data.selectedLuggage) {
+            wx.showToast({ title: "请选择行李情况", icon: "none" });
             return;
         }
     

@@ -39,6 +39,11 @@
     <view class="select-box">{{ peopleCount || "请填入已有几人" }}</view>
   </picker>
 
+  <text class="label">我有多少行李要放后备箱？（一辆车最多4人份）</text>
+<picker mode="selector" range="{{luggageOptions}}" bindchange="onLuggageChange">
+  <view class="select-box">{{ selectedLuggage || "请选择行李情况" }}</view>
+</picker>
+
   <text class="label">我对性别有要求吗？</text>
   <picker mode="selector" range="{{genderOptions}}" bindchange="onGenderChange">
     <view class="select-box">{{ selectedGender || "请选择性别要求" }}</view>

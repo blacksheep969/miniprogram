@@ -39,7 +39,8 @@
     margin-bottom: 10rpx;
   }
   
-  .member-item {
+/* 让每个成员信息更整齐 */
+.member-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,6 +48,21 @@
     padding: 10rpx 0;
     border-bottom: 1rpx solid #e0e0e0;
   }
+
+/* 让行李信息字体稍小一点 */
+.member-luggage {
+    font-size: 26rpx;
+    color: #666;
+    margin-top: 5rpx;
+}
+
+/* 让行李负担显示突出一点 */
+.info-luggage {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 10rpx;
+}
   
   .member-label {
     font-weight: bold;
@@ -78,3 +94,23 @@
     border-radius: 8px;
     margin-top: 20px;
   }
+
+ /* 🚀 隐藏拼车按钮 */
+.hide-button {
+    background-color: #ffa500;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🚀 按钮点击效果 */
+.hide-button:active {
+    background-color: #ff8c00;
+}

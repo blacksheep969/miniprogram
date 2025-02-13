@@ -58,7 +58,8 @@ Page({
                             ...item,
                             routeName: item.routeName || routeMap[collection], // ✅ 转换成中文
                             collectionName: collection,
-                            isHead: item.participants.length > 0 && item.participants[0].openid === openid // 🚀 **判断是否是车头**
+                            isHead: item.participants.length > 0 && item.participants[0].openid === openid, // 🚀 **判断是否是车头**
+                            luggageLoad: item.luggageLoad || 0 // ✅ 确保行李信息正确存储
                         };
                     }));
                 });

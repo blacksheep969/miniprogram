@@ -7,6 +7,7 @@
     <text class="info">⏳ 可接受时间：{{carpool.timeRange}}</text>
     <text class="info">👥 已有：{{carpool.peopleCount}} 人</text>
     <text class="info">🚻 性别要求：{{carpool.genderRequirement}}</text> <!-- ✅ 只显示性别要求 -->
+    <text class="info">🎒 当前后备箱行李负担：已有{{carpool.luggageLoad}}人份/最多4人份</text>
   </view>
 
   <!-- 车队成员列表 -->
@@ -29,6 +30,11 @@
     <text class="notice-text">🚗 由车头最终打车</text>
     <text class="notice-text">📢 拼车正常完成后无需手动退出，数据将自行清除</text>
   </view>
+
+    <!-- 车头才显示的隐藏按钮 -->
+    <button wx:if="{{isHead}}" class="hide-button" bindtap="toggleVisibility">
+        {{carpool.hidden ? "退出隐藏" : "暂时不在信息大厅中显示"}}
+    </button>
 
   <!-- 确保只有加入的用户才能看到退出按钮 -->
     <button class="exit-button" wx:if="{{isJoined}}" bindtap="goToExit">退出拼车</button>
